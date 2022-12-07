@@ -1,0 +1,25 @@
+name: mvk
+description: mvk
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.18.2 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_hooks: ^0.18.5+1
+  flutter_secure_storage: ^6.1.0
+  hooks_riverpod: ^2.1.1
+  
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.1
+
+flutter:
+  uses-material-design: true
