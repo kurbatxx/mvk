@@ -28,11 +28,11 @@ class App extends StatelessWidget {
         builder: (context, ref, child) {
           final isLoggedIn = ref.watch(loginProvider);
           return isLoggedIn.when(
-            data: (token) {
-              if (token != null) {
-                return const LoginView();
+            data: (isLoggedIn) {
+              if (isLoggedIn) {
+                return const PlaylistView();
               }
-              return const PlaylistView();
+              return const LoginView();
             },
             error: (error, stackTrace) {
               return Center(

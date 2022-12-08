@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mvk/secure/secure_storage.dart';
 
 class PlaylistView extends StatelessWidget {
   const PlaylistView({super.key});
@@ -7,7 +9,21 @@ class PlaylistView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Material App Bar'),
+        title: const Text('Моя музыка'),
+        actions: [
+          Consumer(
+            builder: (BuildContext context, WidgetRef ref, Widget? child) {
+              return IconButton(
+                onPressed: () async {
+                  await SecureStorage().delToken();
+                  await SecureStorage().delSecret();
+                  //ref.read(provider)
+                },
+                icon: const Icon(Icons.logout),
+              );
+            },
+          )
+        ],
       ),
       body: const Center(child: Text('App')),
     );
