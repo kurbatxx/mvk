@@ -18,7 +18,6 @@ vkApi(String token, String secret, String method, String args) async {
     "Accept": "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, */*"
   });
 
-  resp.json();
   return resp.json();
 }
 

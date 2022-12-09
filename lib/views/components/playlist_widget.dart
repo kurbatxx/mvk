@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mvk/state/auth/providers/playlist_provider.dart';
+import 'package:mvk/state/playlsit/playlist_provider.dart';
 
 class PlaylistWidget extends ConsumerWidget {
   const PlaylistWidget({super.key});
