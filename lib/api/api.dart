@@ -5,40 +5,46 @@ import 'dart:convert';
 
 // Основное VK API. P.S: Обязательно нужен args
 vkApi(String token, String secret, String method, String args) async {
-  String deviceId = getRandomString(16);
-  double v = 5.95;
+  final deviceId = getRandomString(16);
+  const v = 5.95;
 
   String url =
       '/method/$method?v=$v&access_token=$token&device_id=$deviceId&$args';
   final hash = md5.convert(utf8.encode(url + secret));
 
-  var resp = await Requests.get('https://api.vk.com$url&sig=$hash', headers: {
+  final resp = await Requests.get('https://api.vk.com$url&sig=$hash', headers: {
     "User-Agent":
         "VKAndroidApp/4.13.1-1206 (Android 4.4.3; SDK 19; armeabi; ; ru)",
     "Accept": "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, */*"
   });
 
+  resp.json();
   return resp.json();
 }
 
 // Логиним пользователя. Возвращает токен, секрет, ссылку для перехода и ошибку, если есть
 Future<Map<String, dynamic>> vkLogin(String login, String password) async {
-  var loginQueue = await Requests.post("https://oauth.vk.com/token", headers: {
-    "User-Agent":
-        "VKAndroidApp/4.13.1-1206 (Android 4.4.3; SDK 19; armeabi; ; ru)",
-    "Accept": "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, */*"
-  }, queryParameters: {
-    '2fa_supported': '1',
-    'grant_type': 'password',
-    'scope': 'nohttps,audio',
-    'client_id': 2274003,
-    'client_secret': 'hHbZxrka2uZ6jB1inYsH',
-    'validate_token': 'true',
-    'username': login,
-    'password': password
-  });
+  final loginQueue = await Requests.post(
+    "https://oauth.vk.com/token",
+    headers: {
+      "User-Agent":
+          "VKAndroidApp/4.13.1-1206 (Android 4.4.3; SDK 19; armeabi; ; ru)",
+      "Accept": "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, */*"
+    },
+    queryParameters: {
+      '2fa_supported': '1',
+      'grant_type': 'password',
+      'scope': 'nohttps,audio',
+      'client_id': 2274003,
+      'client_secret': 'hHbZxrka2uZ6jB1inYsH',
+      'validate_token': 'true',
+      'username': login,
+      'password': password
+    },
+    timeoutSeconds: 20,
+  );
 
-  var result = loginQueue.json();
+  final result = loginQueue.json();
 
   var token = result['access_token'];
   var secret = result['secret'];

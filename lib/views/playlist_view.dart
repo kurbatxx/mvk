@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mvk/secure/secure_storage.dart';
+import 'package:mvk/state/auth/models/crededential_model.dart';
+import 'package:mvk/state/auth/providers/credential_provider.dart';
+import 'package:mvk/views/components/playlist_widget.dart';
 
 class PlaylistView extends StatelessWidget {
   const PlaylistView({super.key});
@@ -17,7 +20,8 @@ class PlaylistView extends StatelessWidget {
                 onPressed: () async {
                   await SecureStorage().delToken();
                   await SecureStorage().delSecret();
-                  //ref.read(provider)
+                  ref.read(credentialProvider.notifier).state =
+                      const CredentialModel(token: null, secret: null);
                 },
                 icon: const Icon(Icons.logout),
               );
@@ -25,7 +29,7 @@ class PlaylistView extends StatelessWidget {
           )
         ],
       ),
-      body: const Center(child: Text('App')),
+      body: const PlaylistWidget(),
     );
   }
 }

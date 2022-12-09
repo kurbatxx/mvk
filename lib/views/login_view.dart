@@ -3,7 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mvk/api/api.dart';
 import 'package:mvk/ext/ext_log.dart';
-
+import 'package:mvk/state/auth/models/crededential_model.dart';
+import 'package:mvk/state/auth/providers/credential_provider.dart';
 
 class LoginView extends HookConsumerWidget {
   const LoginView({super.key});
@@ -39,7 +40,10 @@ class LoginView extends HookConsumerWidget {
                 final password = passwordController.text;
                 final logged = await vkLogin(login, password);
                 logged.log();
-
+                ref.read(credentialProvider.notifier).state = CredentialModel(
+                  token: logged['token'],
+                  secret: logged['secret'],
+                );
                 //await SecureStorage().setToken(logged['token']);
                 //await SecureStorage().setSecret(logged['secret']);
               },
