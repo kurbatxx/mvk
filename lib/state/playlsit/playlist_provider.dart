@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mvk/api/api.dart';
 import 'package:mvk/ext/ext_log.dart';
@@ -12,16 +10,15 @@ final playlistProvider = FutureProvider<Iterable<bool>>((ref) async {
   token.token.log();
   token.secret.log();
 
-  final res = await vkApi(
+  final musicResponse = await vkApi(
     token.token,
     token.secret,
     'audio.get',
     'count=10000',
   );
 
-  res['response']['count'].toString().log();
-  // final parsedJson = jsonDecode(jsonData);
-  // final music = Music.fromJson(parsedJson);
+  musicResponse['response']['count'].toString().log();
+  final music = Music.fromJson(musicResponse);
 
   return [];
 });

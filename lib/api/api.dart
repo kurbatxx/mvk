@@ -4,11 +4,12 @@ import 'package:crypto/crypto.dart';
 import 'dart:convert';
 
 // Основное VK API. P.S: Обязательно нужен args
-vkApi(String token, String secret, String method, String args) async {
+Future<Map<String, dynamic>> vkApi(
+    String token, String secret, String method, String args) async {
   final deviceId = getRandomString(16);
   const v = 5.95;
 
-  String url =
+  final url =
       '/method/$method?v=$v&access_token=$token&device_id=$deviceId&$args';
   final hash = md5.convert(utf8.encode(url + secret));
 
