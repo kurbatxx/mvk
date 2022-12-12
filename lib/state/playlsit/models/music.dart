@@ -38,16 +38,25 @@ class MusicItem {
     required this.artist,
     required this.title,
     required this.duration,
+    required this.url,
   });
 
   final String artist;
   final String title;
   final int duration;
+  final String url;
 
   factory MusicItem.fromJson(Map<String, dynamic> json) {
     final artist = json['artist'] as String;
     final title = json['title'] as String;
     final duration = json['duration'] as int;
-    return MusicItem(artist: artist, title: title, duration: duration);
+    final url = json['url'] as String;
+
+    return MusicItem(
+      artist: artist,
+      title: title,
+      duration: duration,
+      url: url,
+    );
   }
 }

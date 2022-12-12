@@ -15,8 +15,6 @@ dependencies:
   hooks_riverpod: ^2.1.1
   requests: ^4.7.0
   
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

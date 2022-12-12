@@ -17,6 +17,9 @@ class PlaylistWidget extends ConsumerWidget {
           itemBuilder: (context, index) {
             final musicItem = data.response.musicItems[index];
             return ListTile(
+              onTap: () async {
+                
+              },
               title: Text(
                 musicItem.title,
               ),
