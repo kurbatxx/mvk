@@ -25,32 +25,30 @@ class App extends StatelessWidget {
       title: 'Material App',
       debugShowCheckedModeBanner: false,
       home: SafeArea(
-        child: Scaffold(
-          body: Consumer(
-            builder: (context, ref, child) {
-              final isLoggedIn = ref.watch(loginProvider);
-              return isLoggedIn.when(
-                data: (isLoggedIn) {
-                  if (isLoggedIn) {
-                    return const PlaylistView();
-                  }
-                  return const LoginView();
-                },
-                error: (error, stackTrace) {
-                  return Center(
-                    child: Text(error.toString()),
-                  );
-                },
-                loading: () {
-                  return const Scaffold(
-                    body: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                },
-              );
-            },
-          ),
+        child: Consumer(
+          builder: (context, ref, child) {
+            final isLoggedIn = ref.watch(loginProvider);
+            return isLoggedIn.when(
+              data: (isLoggedIn) {
+                if (isLoggedIn) {
+                  return const PlaylistView();
+                }
+                return const LoginView();
+              },
+              error: (error, stackTrace) {
+                return Center(
+                  child: Text(error.toString()),
+                );
+              },
+              loading: () {
+                return const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              },
+            );
+          },
         ),
       ),
     );

@@ -10,7 +10,21 @@ class PlaylistWidget extends ConsumerWidget {
     final playlist = ref.watch(playlistProvider);
 
     return playlist.when(
-      data: (data) => const Center(child: Text('Загружено')),
+      data: (data) {
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: data.response.musicItems.length,
+          itemBuilder: (context, index) {
+            final musicItem = data.response.musicItems[index];
+            return ListTile(
+              title: Text(
+                musicItem.title,
+              ),
+              subtitle: Text(musicItem.artist),
+            );
+          },
+        );
+      },
       error: (error, stackTrace) => Center(
         child: Text(
           error.toString(),

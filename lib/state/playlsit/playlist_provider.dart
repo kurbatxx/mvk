@@ -5,7 +5,7 @@ import 'package:mvk/ext/ext_log.dart';
 import 'package:mvk/state/auth/providers/token_provider.dart';
 import 'package:mvk/state/playlsit/models/music.dart';
 
-final playlistProvider = FutureProvider<Iterable<bool>>((ref) async {
+final playlistProvider = FutureProvider<Music>((ref) async {
   final token = ref.read(tokenProvider);
   token.token.log();
   token.secret.log();
@@ -17,8 +17,7 @@ final playlistProvider = FutureProvider<Iterable<bool>>((ref) async {
     'count=10000',
   );
 
-  musicResponse['response']['count'].toString().log();
   final music = Music.fromJson(musicResponse);
 
-  return [];
+  return music;
 });
