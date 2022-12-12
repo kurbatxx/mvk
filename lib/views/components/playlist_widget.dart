@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:mvk/state/playlsit/playlist_provider.dart';
 
 class PlaylistWidget extends ConsumerWidget {
@@ -18,7 +19,11 @@ class PlaylistWidget extends ConsumerWidget {
             final musicItem = data.response.musicItems[index];
             return ListTile(
               onTap: () async {
-                
+                final player = AudioPlayer();
+                await player.setUrl(
+                  musicItem.url,
+                );
+                player.play();
               },
               title: Text(
                 musicItem.title,
