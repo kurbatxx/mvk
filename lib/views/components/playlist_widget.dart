@@ -21,8 +21,11 @@ class PlaylistWidget extends ConsumerWidget {
             return ListTile(
               onTap: () async {
                 final player = AudioPlayer();
-                final audioUrl = UrlSource(musicItem.url);
-                await player.play(audioUrl);
+                //final audio = UrlSource(musicItem.url);
+                // final audio = UrlSource(
+                //    "https://vgmsite.com/soundtracks/splinter-cell/ijsqbelh/31.%20Name%20of%20the%20Game%20%5BEdit%5D.mp3");
+                final audio = AssetSource('minus.mp3');
+                await player.play(audio);
               },
               title: Text(
                 musicItem.title,
