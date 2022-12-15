@@ -1,8 +1,10 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-//import 'package:just_audio/just_audio.dart';
-import 'package:mvk/state/playlsit/playlist_provider.dart';
+import 'package:mvk/ext/ext_log.dart';
+import 'package:mvk/state/playlsit/providers/player_provider.dart';
+import 'package:mvk/state/playlsit/providers/playlist_provider.dart';
+import 'package:mvk/state/playlsit/providers/source_provider.dart';
 
 class PlaylistWidget extends ConsumerWidget {
   const PlaylistWidget({super.key});
@@ -20,12 +22,26 @@ class PlaylistWidget extends ConsumerWidget {
             final musicItem = data.response.musicItems[index];
             return ListTile(
               onTap: () async {
-                final player = AudioPlayer();
-                //final audio = UrlSource(musicItem.url);
-                // final audio = UrlSource(
-                //    "https://vgmsite.com/soundtracks/splinter-cell/ijsqbelh/31.%20Name%20of%20the%20Game%20%5BEdit%5D.mp3");
-                final audio = AssetSource('minus.mp3');
-                await player.play(audio);
+                final player = ref.read(audioPlayerProvider);
+                final source = ref.read(sourceProvider);
+                final audio = UrlSource(musicItem.url);
+                player.state.log();
+
+                if (source != musicItem.url) {
+                  await player.stop();
+                  await player.play(audio);
+                  ref.read(sourceProvider.notifier).state = musicItem.url;
+                } else {
+                  if (player.state == PlayerState.stopped ||
+                      player.state == PlayerState.paused ||
+                      player.state == PlayerState.completed) {
+                    "Играй".log();
+                    await player.play(audio);
+                  } else {
+                    "Пауза".log();
+                    await player.pause();
+                  }
+                }
               },
               title: Text(
                 musicItem.title,

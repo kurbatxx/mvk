@@ -18,6 +18,5 @@ final playlistProvider = FutureProvider<Music>((ref) async {
   );
 
   final music = Music.fromJson(musicResponse);
-
   return music;
 });
