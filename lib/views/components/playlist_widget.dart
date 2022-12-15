@@ -5,6 +5,7 @@ import 'package:mvk/ext/ext_log.dart';
 import 'package:mvk/state/playlsit/providers/player_provider.dart';
 import 'package:mvk/state/playlsit/providers/playlist_provider.dart';
 import 'package:mvk/state/playlsit/providers/source_provider.dart';
+import 'package:mvk/views/components/play_pause_tile.dart';
 
 class PlaylistWidget extends ConsumerWidget {
   const PlaylistWidget({super.key});
@@ -20,6 +21,9 @@ class PlaylistWidget extends ConsumerWidget {
           itemCount: data.response.musicItems.length,
           itemBuilder: (context, index) {
             final musicItem = data.response.musicItems[index];
+            final bool visible =
+                ref.watch(sourceProvider) == musicItem.url ? true : false;
+            visible.log();
             return ListTile(
               onTap: () async {
                 final player = ref.read(audioPlayerProvider);
@@ -43,10 +47,16 @@ class PlaylistWidget extends ConsumerWidget {
                   }
                 }
               },
+              leading: Visibility(
+                visible: visible,
+                child: const PlayPauseTile(),
+              ),
               title: Text(
                 musicItem.title,
               ),
-              subtitle: Text(musicItem.artist),
+              subtitle: Text(
+                musicItem.artist,
+              ),
             );
           },
         );
