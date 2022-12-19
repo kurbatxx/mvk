@@ -1,7 +1,9 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mvk/state/playlsit/providers/player_provider.dart';
+import 'package:mvk/ext/ext_log.dart';
+
+import 'package:mvk/state/playlsit/providers/player_state_provider.dart';
 
 class PlayPauseTile extends ConsumerWidget {
   const PlayPauseTile({
@@ -10,8 +12,10 @@ class PlayPauseTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final player = ref.watch(audioPlayerProvider);
-    final icon = player.state == PlayerState.playing
+    '--BUILD--'.log();
+    final playerState = ref.watch(audioPlayerStateProvider);
+    playerState.log();
+    final icon = playerState == PlayerState.playing
         ? const Icon(
             Icons.pause,
             color: Colors.white70,
