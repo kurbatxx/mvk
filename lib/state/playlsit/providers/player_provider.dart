@@ -5,7 +5,8 @@ final audioPlayerProvider = Provider<AudioPlayer>((_) {
   final AudioContext audioContext = AudioContext(
     iOS: AudioContextIOS(
       defaultToSpeaker: true,
-      category: AVAudioSessionCategory.ambient,
+      //category: AVAudioSessionCategory.ambient,
+      category: AVAudioSessionCategory.playAndRecord,
       options: [
         AVAudioSessionOptions.defaultToSpeaker,
         AVAudioSessionOptions.mixWithOthers,
@@ -14,9 +15,9 @@ final audioPlayerProvider = Provider<AudioPlayer>((_) {
     android: AudioContextAndroid(
       isSpeakerphoneOn: true,
       stayAwake: true,
-      contentType: AndroidContentType.music, // i change this
-      usageType: AndroidUsageType.media, // i change this
-      audioFocus: AndroidAudioFocus.gain, // i change this
+      contentType: AndroidContentType.music,
+      usageType: AndroidUsageType.media,
+      audioFocus: AndroidAudioFocus.gain,
     ),
   );
   AudioPlayer.global.setGlobalAudioContext(audioContext);
