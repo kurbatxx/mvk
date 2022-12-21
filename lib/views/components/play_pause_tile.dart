@@ -18,7 +18,6 @@ class PlayPauseTile extends ConsumerWidget {
     final icon = playerState == PlayerState.playing
         ? const Icon(
             Icons.pause,
-            color: Colors.white70,
           )
         : const Icon(Icons.play_arrow);
     return CircleAvatar(

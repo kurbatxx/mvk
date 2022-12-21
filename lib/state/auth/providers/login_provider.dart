@@ -29,8 +29,6 @@ final loginProvider = FutureProvider<bool>(
         'count=1',
       );
 
-      print(validAudioCheck['error']);
-
       if (validAudioCheck['error'] != null) {
         if (validAudioCheck['error']['error_code'] == 25) {
           return false;
