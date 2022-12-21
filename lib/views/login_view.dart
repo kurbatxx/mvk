@@ -17,40 +17,46 @@ class LoginView extends HookConsumerWidget {
     useEffect(() {}, [loginController, passwordController]);
 
     return Scaffold(
-      body: Column(
-        children: [
-          TextField(
-            controller: loginController,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(8),
+        child: Center(
+          child: Column(
+            children: [
+              TextField(
+                controller: loginController,
+              ),
+              TextField(
+                controller: passwordController,
+                obscureText: true,
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  minWidth: 300,
+                  maxWidth: 300,
+                ),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    final login = loginController.text;
+                    final password = passwordController.text;
+                    final logged = await vkLogin(login, password);
+                    logged.log();
+                    ref.read(credentialProvider.notifier).state =
+                        CredentialModel(
+                      token: logged['token'],
+                      secret: logged['secret'],
+                    );
+                    //await SecureStorage().setToken(logged['token']);
+                    //await SecureStorage().setSecret(logged['secret']);
+                  },
+                  child: const Text('Войти'),
+                ),
+              )
+            ],
           ),
-          TextField(
-            controller: passwordController,
-            obscureText: true,
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          ConstrainedBox(
-            constraints: const BoxConstraints(
-              minWidth: 300,
-              maxWidth: 300,
-            ),
-            child: ElevatedButton(
-              onPressed: () async {
-                final login = loginController.text;
-                final password = passwordController.text;
-                final logged = await vkLogin(login, password);
-                logged.log();
-                ref.read(credentialProvider.notifier).state = CredentialModel(
-                  token: logged['token'],
-                  secret: logged['secret'],
-                );
-                //await SecureStorage().setToken(logged['token']);
-                //await SecureStorage().setSecret(logged['secret']);
-              },
-              child: const Text('Войти'),
-            ),
-          )
-        ],
+        ),
       ),
     );
   }
