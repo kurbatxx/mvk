@@ -1,3 +1,4 @@
+import 'package:mvk/state/auth/models/crededential_model.dart';
 import 'package:requests/requests.dart';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
@@ -23,7 +24,7 @@ Future<Map<String, dynamic>> vkApi(
 }
 
 // Логиним пользователя. Возвращает токен, секрет, ссылку для перехода и ошибку, если есть
-Future<Map<String, dynamic>> vkLogin(String login, String password) async {
+Future<CredentialModel> vkLogin(String login, String password) async {
   final loginQueue = await Requests.post(
     "https://oauth.vk.com/token",
     headers: {
@@ -57,14 +58,14 @@ Future<Map<String, dynamic>> vkLogin(String login, String password) async {
     await vkApi(token, secret, 'auth.refreshToken', 'lang=\'ru\'');
   */
 
-  final response = {
-    "token": token,
-    "secret": secret,
-    "redirect_uri": redirectUri,
-    "error_type": errorType
-  };
+  final credential = CredentialModel(
+    secret: secret ?? '',
+    token: token ?? '',
+    redirectUri: redirectUri,
+    errorType: errorType,
+  );
 
-  return response;
+  return credential;
 }
 
 const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';

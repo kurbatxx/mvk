@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mvk/state/auth/providers/login_provider.dart';
+import 'package:mvk/state/auth/providers/initial_provider.dart';
 import 'package:mvk/views/login_view.dart';
 import 'package:mvk/views/playlist_view.dart';
 
@@ -22,12 +22,11 @@ class App extends StatelessWidget {
     return MaterialApp(
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.dark,
-      title: 'Material App',
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Consumer(
           builder: (context, ref, child) {
-            final isLoggedIn = ref.watch(loginProvider);
+            final isLoggedIn = ref.watch(initialProvider);
             return isLoggedIn.when(
               data: (isLoggedIn) {
                 if (isLoggedIn) {
