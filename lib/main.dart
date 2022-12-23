@@ -26,10 +26,10 @@ class App extends StatelessWidget {
       home: SafeArea(
         child: Consumer(
           builder: (context, ref, child) {
-            final isLoggedIn = ref.watch(initialProvider);
-            return isLoggedIn.when(
-              data: (isLoggedIn) {
-                if (isLoggedIn) {
+            final asyncLogin = ref.watch(initialProvider);
+            return asyncLogin.when(
+              data: (isLogin) {
+                if (isLogin) {
                   return const PlaylistView();
                 }
                 return const LoginView();
