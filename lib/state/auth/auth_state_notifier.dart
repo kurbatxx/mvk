@@ -2,12 +2,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mvk/api/api.dart';
 import 'package:mvk/secure/secure_storage.dart';
 import 'package:mvk/state/auth/models/auth_state.dart';
+import 'package:mvk/state/auth/models/crededential_model.dart';
 
 class AuthStateNotifier extends StateNotifier<AuthState> {
   AuthStateNotifier() : super(const AuthState.unknown());
 
   Future<void> logout() async {
-    state = state.copyWithIsLoading(true);
     state = const AuthState.unknown();
   }
 
@@ -23,6 +23,16 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
     state = AuthState(
       result: credential,
+      isLoading: false,
+    );
+  }
+
+  void update(token, secret) {
+    state = state = AuthState(
+      result: CredentialModel(
+        token: token,
+        secret: secret,
+      ),
       isLoading: false,
     );
   }

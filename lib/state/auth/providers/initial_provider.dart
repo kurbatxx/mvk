@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mvk/api/api.dart';
 import 'package:mvk/secure/secure_storage.dart';
+import 'package:mvk/state/auth/providers/auth_state_provider.dart';
 
 final initialProvider = FutureProvider<bool>(
   (ref) async {
@@ -19,6 +20,7 @@ final initialProvider = FutureProvider<bool>(
       if (validAudioCheck['error'] != null) {
         return false;
       }
+      ref.read(authStateProvider.notifier).update(token, secret);
       return true;
     }
     return false;
