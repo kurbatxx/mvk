@@ -15,7 +15,10 @@ class LoginView extends HookConsumerWidget {
 
     final state = ref.watch(authStateProvider);
 
-    if (state.result.secret.isNotEmpty && state.result.token.isNotEmpty) {
+    final credential = state.result;
+    if (credential.secret.isNotEmpty && credential.token.isNotEmpty) {
+      loginController.clear();
+      passwordController.clear();
       return const PlaylistView();
     }
 
@@ -37,7 +40,7 @@ class LoginView extends HookConsumerWidget {
               ),
               Column(
                 children: [
-                  if (state.isLoading == true) ...[
+                  if (state.isLoading) ...[
                     const SizedBox(
                       height: 8,
                     ),

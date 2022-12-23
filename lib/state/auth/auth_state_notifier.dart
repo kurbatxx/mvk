@@ -8,6 +8,8 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   AuthStateNotifier() : super(const AuthState.unknown());
 
   Future<void> logout() async {
+    await SecureStorage().delToken();
+    await SecureStorage().delSecret();
     state = const AuthState.unknown();
   }
 
@@ -16,9 +18,8 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     final credential = await vkLogin(login, password);
 
     if (credential.secret.isNotEmpty && credential.secret.isNotEmpty) {
-      final storage = SecureStorage();
-      storage.setToken(credential.token);
-      storage.setSecret(credential.secret);
+      await SecureStorage().setToken(credential.token);
+      await SecureStorage().setSecret(credential.token);
     }
 
     state = AuthState(
