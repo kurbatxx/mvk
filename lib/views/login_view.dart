@@ -23,6 +23,10 @@ class LoginView extends HookConsumerWidget {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Авторизация'),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8),
         child: Center(
@@ -40,35 +44,47 @@ class LoginView extends HookConsumerWidget {
               ),
               Column(
                 children: [
-                  if (state.isLoading) ...[
-                    const SizedBox(
-                      height: 8,
+                  SizedBox(
+                    height: 32,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (state.isLoading) ...[
+                          const Center(
+                            child: SizedBox(
+                              height: 16,
+                              width: 16,
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
+                        ] else ...[
+                          ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              minWidth: 300,
+                              maxWidth: 300,
+                              maxHeight: 32,
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                final login = loginController.text;
+                                final password = passwordController.text;
+                                await ref
+                                    .read(authStateProvider.notifier)
+                                    .login(login, password);
+                              },
+                              child: const Text('Войти'),
+                            ),
+                          )
+                        ],
+                      ],
                     ),
-                    const Center(
-                      child: SizedBox(
-                        height: 14,
-                        width: 14,
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
-                  ] else ...[
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        minWidth: 300,
-                        maxWidth: 300,
-                      ),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          final login = loginController.text;
-                          final password = passwordController.text;
-                          await ref
-                              .read(authStateProvider.notifier)
-                              .login(login, password);
-                        },
-                        child: const Text('Войти'),
-                      ),
-                    ),
-                  ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  if (credential.errorType != null) ...[
+                    const Text('Неправильный логин или пароль')
+                  ]
                 ],
               ),
             ],
