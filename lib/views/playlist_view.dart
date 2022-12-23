@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mvk/state/auth/providers/auth_state_provider.dart';
+import 'package:mvk/state/playlsit/providers/player_provider.dart';
 import 'package:mvk/views/components/playlist_widget.dart';
+import 'package:mvk/views/login_view.dart';
 
-class PlaylistView extends StatelessWidget {
+class PlaylistView extends ConsumerWidget {
   const PlaylistView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(authStateProvider);
+    final credential = state.result;
+    if (credential.secret.isEmpty || credential.token.isEmpty) {
+      return const LoginView();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Моя музыка'),
@@ -16,6 +24,7 @@ class PlaylistView extends StatelessWidget {
             builder: (context, ref, child) {
               return IconButton(
                 onPressed: () async {
+                  ref.read(audioPlayerProvider).stop();
                   ref.read(authStateProvider.notifier).logout();
                 },
                 icon: const Icon(Icons.logout),
