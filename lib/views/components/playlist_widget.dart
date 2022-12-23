@@ -103,7 +103,11 @@ class PlaylistWidget extends ConsumerWidget {
       ),
       loading: () {
         return const Center(
-          child: CircularProgressIndicator(),
+          child: SizedBox(
+            height: 24,
+            width: 24,
+            child: CircularProgressIndicator(),
+          ),
         );
       },
     );

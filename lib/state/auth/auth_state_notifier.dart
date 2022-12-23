@@ -19,7 +19,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
     if (credential.secret.isNotEmpty && credential.secret.isNotEmpty) {
       await SecureStorage().setToken(credential.token);
-      await SecureStorage().setSecret(credential.token);
+      await SecureStorage().setSecret(credential.secret);
     }
 
     state = AuthState(
@@ -29,7 +29,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   }
 
   void update(token, secret) {
-    state = state = AuthState(
+    state = AuthState(
       result: CredentialModel(
         token: token,
         secret: secret,

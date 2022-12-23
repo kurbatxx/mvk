@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'package:mvk/state/auth/providers/auth_state_provider.dart';
 import 'package:mvk/views/playlist_view.dart';
 
@@ -10,8 +11,20 @@ class LoginView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final loginController = useTextEditingController();
     final passwordController = useTextEditingController();
+    final showError = useState(true);
 
-    useEffect(() {}, [loginController, passwordController]);
+    useEffect(
+      () {
+        loginController.addListener(() {
+          showError.value = false;
+        });
+        passwordController.addListener(() {
+          showError.value = false;
+        });
+        return () {};
+      },
+      [loginController, passwordController],
+    );
 
     final state = ref.watch(authStateProvider);
 
@@ -71,6 +84,7 @@ class LoginView extends HookConsumerWidget {
                                 await ref
                                     .read(authStateProvider.notifier)
                                     .login(login, password);
+                                showError.value = true;
                               },
                               child: const Text('Войти'),
                             ),
@@ -82,7 +96,7 @@ class LoginView extends HookConsumerWidget {
                   const SizedBox(
                     height: 8,
                   ),
-                  if (credential.errorType != null) ...[
+                  if (credential.errorType != null && showError.value) ...[
                     const Text('Неправильный логин или пароль')
                   ]
                 ],

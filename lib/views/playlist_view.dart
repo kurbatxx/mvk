@@ -17,7 +17,6 @@ class PlaylistView extends StatelessWidget {
               return IconButton(
                 onPressed: () async {
                   ref.read(authStateProvider.notifier).logout();
-                  // final _ = ref.refresh(initialProvider);
                 },
                 icon: const Icon(Icons.logout),
               );

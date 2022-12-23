@@ -42,7 +42,11 @@ class App extends StatelessWidget {
               loading: () {
                 return const Scaffold(
                   body: Center(
-                    child: CircularProgressIndicator(),
+                    child: SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
                 );
               },
