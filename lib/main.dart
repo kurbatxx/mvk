@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mvk/constatnt/ui_constant.dart';
 import 'package:mvk/state/auth/providers/initial_provider.dart';
 import 'package:mvk/views/login_view.dart';
 import 'package:mvk/views/playlist_view.dart';
@@ -43,8 +44,8 @@ class App extends StatelessWidget {
                 return const Scaffold(
                   body: Center(
                     child: SizedBox(
-                      height: 24,
-                      width: 24,
+                      height: UiConstant.circularProgressIndicatorSize,
+                      width: UiConstant.circularProgressIndicatorSize,
                       child: CircularProgressIndicator(),
                     ),
                   ),
