@@ -8,8 +8,10 @@ import 'package:mvk/state/playlsit/providers/player_state_provider.dart';
 final musicPositionProvider = StreamProvider<Duration>(
   (ref) {
     Duration dur = const Duration();
+    final controller = StreamController<Duration>();
+    controller.add(dur);
 
-    return ref.watch(tikerProvider.stream).map(
+    ref.watch(tikerProvider.stream).forEach(
       (event) {
         final state = ref.read(playerStateProvider);
 
@@ -19,12 +21,16 @@ final musicPositionProvider = StreamProvider<Duration>(
 
           duration.then((value) {
             dur = value ?? const Duration();
+            controller.add(dur);
+
+            if (dur == const Duration()) {
+              ref.refresh(playerStateProvider);
+            }
           });
         }
-
-        return dur;
       },
     );
+    return controller.stream;
   },
 );
 
