@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:mvk/state/auth/providers/auth_state_provider.dart';
+import 'package:mvk/views/components/circular_indicator.dart';
 import 'package:mvk/views/playlist_view.dart';
 
 class LoginView extends HookConsumerWidget {
@@ -63,13 +64,7 @@ class LoginView extends HookConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         if (state.isLoading) ...[
-                          const Center(
-                            child: SizedBox(
-                              height: 16,
-                              width: 16,
-                              child: CircularProgressIndicator(),
-                            ),
-                          ),
+                          const CircularIndicator(),
                         ] else ...[
                           ConstrainedBox(
                             constraints: const BoxConstraints(

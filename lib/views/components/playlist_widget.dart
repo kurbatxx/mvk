@@ -4,9 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mvk/ext/ext_log.dart';
 import 'package:mvk/state/playlsit/providers/player_provider.dart';
 import 'package:mvk/state/playlsit/providers/player_state_provider.dart';
-
 import 'package:mvk/state/playlsit/providers/playlist_provider.dart';
 import 'package:mvk/state/playlsit/providers/source_provider.dart';
+import 'package:mvk/views/components/circular_indicator.dart';
 import 'package:mvk/views/components/play_pause_tile.dart';
 
 class PlaylistWidget extends ConsumerWidget {
@@ -88,13 +88,7 @@ class PlaylistWidget extends ConsumerWidget {
         ),
       ),
       loading: () {
-        return const Center(
-          child: SizedBox(
-            height: 24,
-            width: 24,
-            child: CircularProgressIndicator(),
-          ),
-        );
+        return const CircularIndicator();
       },
     );
   }
