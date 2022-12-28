@@ -11,7 +11,7 @@ class TimerCheapDetails extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final duration = ref.watch(musicPositionProvider);
-
+    
     return duration.when(
       data: (data) {
         return Text(
