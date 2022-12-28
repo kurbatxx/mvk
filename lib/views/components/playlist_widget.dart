@@ -1,18 +1,24 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mvk/ext/ext_log.dart';
 import 'package:mvk/state/playlsit/providers/player_provider.dart';
 import 'package:mvk/state/playlsit/providers/player_state_provider.dart';
+
 import 'package:mvk/state/playlsit/providers/playlist_provider.dart';
 import 'package:mvk/state/playlsit/providers/source_provider.dart';
 import 'package:mvk/views/components/play_pause_tile.dart';
-import 'package:mvk/views/components/player_panel.dart';
 
 class PlaylistWidget extends ConsumerWidget {
   const PlaylistWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final player = ref.read(playerProvider);
+    ref.listen(playerStateProvider, (previous, curent) {
+      'lisen+++_$curent'.log();
+    });
+
     final playlist = ref.watch(playlistProvider);
 
     return playlist.when(
@@ -27,25 +33,37 @@ class PlaylistWidget extends ConsumerWidget {
                   final musicItem = data.response.musicItems[index];
                   final bool visible =
                       ref.watch(sourceProvider) == musicItem.url ? true : false;
+
                   return ListTile(
                     onTap: () async {
-                      final player = ref.read(audioPlayerProvider);
-
+                      final playerState = ref.read(playerStateProvider);
                       final source = ref.read(sourceProvider);
+
                       final audio = UrlSource(musicItem.url);
 
-                      if (source != musicItem.url) {
+                      if (source == musicItem.url) {
+                        switch (playerState) {
+                          case PlayerState.stopped:
+                            await player.play(audio);
+                            ref.read(sourceProvider.notifier).state =
+                                musicItem.url;
+                            break;
+                          case PlayerState.playing:
+                            await player.pause();
+                            break;
+                          case PlayerState.paused:
+                            await player.play(audio);
+                            break;
+                          case PlayerState.completed:
+                            await player.play(audio);
+                            break;
+                        }
+                      } else {
                         await player.stop();
                         await player.play(audio);
                         ref.read(sourceProvider.notifier).state = musicItem.url;
-                      } else {
-                        if (player.state != PlayerState.playing) {
-                          await player.play(audio);
-                        } else {
-                          await player.pause();
-                        }
                       }
-                      final _ = ref.refresh(audioPlayerStateProvider);
+                      ref.refresh(playerStateProvider);
                     },
                     leading: Visibility(
                       visible: visible,
@@ -61,10 +79,6 @@ class PlaylistWidget extends ConsumerWidget {
                 },
               ),
             ),
-            const SizedBox(
-              height: 60,
-              child: PlayerPanel(),
-            )
           ],
         );
       },

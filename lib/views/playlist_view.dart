@@ -24,7 +24,7 @@ class PlaylistView extends ConsumerWidget {
             builder: (context, ref, child) {
               return IconButton(
                 onPressed: () async {
-                  ref.read(audioPlayerProvider).stop();
+                  ref.read(playerProvider).stop();
                   ref.read(authStateProvider.notifier).logout();
                 },
                 icon: const Icon(Icons.logout),
