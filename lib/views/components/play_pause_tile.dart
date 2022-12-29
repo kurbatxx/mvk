@@ -4,9 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mvk/state/playlsit/providers/player_state_provider.dart';
 
 class PlayPauseTile extends ConsumerWidget {
-  const PlayPauseTile({
-    Key? key,
-  }) : super(key: key);
+  const PlayPauseTile({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

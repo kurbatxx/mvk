@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mvk/state/auth/providers/auth_state_provider.dart';
 import 'package:mvk/state/playlsit/providers/player_provider.dart';
 import 'package:mvk/views/components/playlist_widget.dart';
-import 'package:mvk/views/components/timer_cheap/timer_cheap.dart';
+import 'package:mvk/views/components/timer_chip/timer_chip.dart';
 import 'package:mvk/views/login_view.dart';
 
 class PlaylistView extends ConsumerWidget {
@@ -19,7 +19,7 @@ class PlaylistView extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const TimerCheap(),
+        title: const TimerChip(),
         actions: [
           Consumer(
             builder: (context, ref, child) {

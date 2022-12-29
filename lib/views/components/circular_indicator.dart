@@ -7,8 +7,8 @@ class CircularIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Center(
       child: SizedBox(
-        height: 24,
-        width: 24,
+        height: 16,
+        width: 16,
         child: CircularProgressIndicator(),
       ),
     );

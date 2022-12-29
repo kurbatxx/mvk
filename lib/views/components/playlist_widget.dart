@@ -7,6 +7,7 @@ import 'package:mvk/state/playlsit/providers/player_state_provider.dart';
 import 'package:mvk/state/playlsit/providers/playlist_provider.dart';
 import 'package:mvk/state/playlsit/providers/source_provider.dart';
 import 'package:mvk/views/components/circular_indicator.dart';
+import 'package:mvk/views/components/music_panel.dart';
 import 'package:mvk/views/components/play_pause_tile.dart';
 
 class PlaylistWidget extends ConsumerWidget {
@@ -79,6 +80,7 @@ class PlaylistWidget extends ConsumerWidget {
                 },
               ),
             ),
+            const MusicPanel(),
           ],
         );
       },
