@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mvk/state/playlsit/providers/basic_player.dart';
 import 'package:mvk/state/playlsit/providers/player_provider.dart';
 import 'package:mvk/state/playlsit/providers/player_state_provider.dart';
 import 'package:mvk/state/playlsit/providers/playlist_provider.dart';
@@ -57,7 +58,7 @@ class PlayPauseButton extends ConsumerWidget {
     if (playerState == PlayerState.playing) {
       return IconButton(
         onPressed: () {
-          final source = ref.read(sourceProvider);
+          ref.read(basicPlayerProvder).pause();
         },
         icon: const Icon(
           Icons.pause,
@@ -66,8 +67,7 @@ class PlayPauseButton extends ConsumerWidget {
     } else {
       return IconButton(
         onPressed: () {
-          final source = ref.read(sourceProvider);
-          if (source.isEmpty) {}
+          ref.read(basicPlayerProvder).play();
         },
         icon: const Icon(
           Icons.play_arrow,
