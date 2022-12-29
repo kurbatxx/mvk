@@ -17,7 +17,6 @@ class TimerCheapDetails extends ConsumerWidget {
       data: (data) {
         return Text(
           durationToFormat(data),
-          //'${data.inMinutes}:${data.inSeconds}',
           style: const TextStyle(color: Colors.black),
         );
       },

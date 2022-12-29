@@ -1,18 +1,20 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mvk/state/playlsit/providers/music_len_provider.dart';
-import 'package:mvk/state/playlsit/providers/music_position_provider.dart';
+import 'package:mvk/state/playlsit/providers/player_provider.dart';
+import 'package:mvk/state/playlsit/providers/player_state_provider.dart';
+import 'package:mvk/state/playlsit/providers/playlist_provider.dart';
+import 'package:mvk/state/playlsit/providers/source_provider.dart';
+import 'package:mvk/views/components/slider_component.dart';
 
-class MusicPanel extends HookConsumerWidget {
+class MusicPanel extends ConsumerWidget {
   const MusicPanel({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final musicPosition = ref.watch(musicPositionProvider);
-    final position = musicPosition.asData?.value ?? const Duration();
-    final currentPosition = position.inSeconds.toDouble();
+    final player = ref.read(playerProvider);
 
     return SizedBox(
-      height: 100,
+      height: 80,
       child: DecoratedBox(
         decoration: const BoxDecoration(
           color: Colors.black54,
@@ -28,12 +30,7 @@ class MusicPanel extends HookConsumerWidget {
                     Icons.chevron_left,
                   ),
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.play_arrow,
-                  ),
-                ),
+                const PlayPauseButton(),
                 IconButton(
                   onPressed: () {},
                   icon: const Icon(
@@ -42,14 +39,40 @@ class MusicPanel extends HookConsumerWidget {
                 ),
               ],
             ),
-            Slider(
-              max: ref.watch(musicLenProvider),
-              value: currentPosition,
-              onChanged: (double value) {},
-            ),
+            const SliderWidget(),
           ],
         ),
       ),
     );
+  }
+}
+
+class PlayPauseButton extends ConsumerWidget {
+  const PlayPauseButton({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final playerState = ref.watch(playerStateProvider);
+
+    if (playerState == PlayerState.playing) {
+      return IconButton(
+        onPressed: () {
+          final source = ref.read(sourceProvider);
+        },
+        icon: const Icon(
+          Icons.pause,
+        ),
+      );
+    } else {
+      return IconButton(
+        onPressed: () {
+          final source = ref.read(sourceProvider);
+          if (source.isEmpty) {}
+        },
+        icon: const Icon(
+          Icons.play_arrow,
+        ),
+      );
+    }
   }
 }
