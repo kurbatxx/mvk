@@ -9,7 +9,7 @@ import 'package:mvk/state/playlsit/providers/source_provider.dart';
 final basicPlayerProvder = Provider((ref) => BasicPlayer(ref));
 
 class BasicPlayer {
-  BasicPlayer(this.ref);
+  const BasicPlayer(this.ref);
   final Ref ref;
 
   void play() async {
@@ -34,6 +34,38 @@ class BasicPlayer {
     ref.invalidate(playerStateProvider);
   }
 
+  void playNextTrack() {
+    final source = ref.read(sourceProvider);
+    final trackList = ref.read(musicListProvider);
+
+    final index = trackList.indexWhere((item) => item.url == source);
+    if (index == -1) {
+      return;
+    }
+
+    if (index + 1 < trackList.length) {
+      ref.read(sourceProvider.notifier).state = trackList[index + 1].url;
+    }
+
+    play();
+  }
+
+  void playPreTrack() {
+    final source = ref.read(sourceProvider);
+    final trackList = ref.read(musicListProvider);
+
+    final index = trackList.indexWhere((item) => item.url == source);
+    if (index == -1) {
+      return;
+    }
+
+    if (index - 1 > 0) {
+      ref.read(sourceProvider.notifier).state = trackList[index - 1].url;
+    }
+
+    play();
+  }
+
   void playOrPause({required String url}) async {
     final player = ref.read(playerProvider);
     final source = ref.read(sourceProvider);
@@ -43,23 +75,19 @@ class BasicPlayer {
     if (source == url) {
       final audio = UrlSource(source);
       switch (playerState) {
-        case PlayerState.stopped:
-          await player.play(audio);
-          break;
         case PlayerState.playing:
           await player.pause();
           break;
+        case PlayerState.stopped:
         case PlayerState.paused:
-          await player.play(audio);
-          break;
         case PlayerState.completed:
           await player.play(audio);
           break;
       }
     } else {
+      await player.stop();
       final audio = UrlSource(url);
       ref.read(sourceProvider.notifier).state = url;
-      await player.stop();
       await player.play(audio);
 
       final duration = await player.getDuration();

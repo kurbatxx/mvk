@@ -8,7 +8,9 @@ class SliderWidget extends HookConsumerWidget {
   const SliderWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final trackLen = ref.watch(musicLenProvider);
     final musicPosition = ref.watch(musicPositionProvider);
+
     final position = musicPosition.asData?.value ?? const Duration();
     final currentPosition = position.inSeconds.toDouble();
 
@@ -23,7 +25,7 @@ class SliderWidget extends HookConsumerWidget {
           overlayShape: const RoundSliderThumbShape(enabledThumbRadius: 0.0),
         ),
         child: Slider(
-          max: ref.watch(musicLenProvider),
+          max: trackLen,
           value: currentPosition,
           onChanged: (double value) async {
             await ref.read(playerProvider).seek(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mvk/state/playlsit/providers/basic_player.dart';
+import 'package:mvk/state/playlsit/providers/basic_player_provider.dart';
 import 'package:mvk/state/playlsit/providers/music_list_provider.dart';
 import 'package:mvk/state/playlsit/providers/source_provider.dart';
 import 'package:mvk/views/components/music_panel.dart';
