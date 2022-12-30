@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mvk/state/playlsit/providers/music_list_provider.dart';
+import 'package:mvk/ext/ext_log.dart';
+import 'package:mvk/state/playlsit/providers/player_state_provider.dart';
 import 'package:mvk/state/playlsit/providers/playlist_provider.dart';
-
 import 'package:mvk/views/components/circular_indicator.dart';
 import 'package:mvk/views/components/music_items_list_widget.dart';
 
@@ -11,10 +11,9 @@ class PlaylistWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final player = ref.read(playerProvider);
-    // ref.listen(playerStateProvider, (previous, curent) {
-    //   'lisen+++_$curent'.log();
-    // });
+    ref.listen(playerStateProvider, (previous, curent) {
+      '_+++_$curent'.log();
+    });
 
     final playlist = ref.watch(playlistProvider);
 

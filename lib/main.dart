@@ -23,7 +23,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.dark,
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: true,
       home: SafeArea(
         child: Consumer(
           builder: (context, ref, child) {
