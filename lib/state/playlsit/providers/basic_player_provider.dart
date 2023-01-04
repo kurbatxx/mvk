@@ -22,6 +22,7 @@ class BasicPlayer {
     }
 
     final audio = UrlSource(source);
+    await player.stop();
     await player.play(audio);
 
     ref.invalidate(playerStateProvider);
