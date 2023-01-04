@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mvk/constatnt/ui_constant.dart';
 import 'package:mvk/state/playlsit/providers/music_len_provider.dart';
 import 'package:mvk/state/playlsit/providers/music_position_provider.dart';
 import 'package:mvk/state/playlsit/providers/player_provider.dart';
@@ -15,13 +16,15 @@ class SliderWidget extends HookConsumerWidget {
     final currentPosition = position.inSeconds.toDouble();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 0.0),
       child: SliderTheme(
         data: SliderTheme.of(context).copyWith(
           trackShape: const RoundedRectSliderTrackShape(),
-          trackHeight: 10,
+          trackHeight: UiConstant.sliderHeight,
+          inactiveTrackColor: Colors.transparent,
           thumbColor: Colors.blue,
-          thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+          thumbShape: const RoundSliderThumbShape(
+              enabledThumbRadius: UiConstant.sliderHeight / 2 + 1),
           overlayShape: const RoundSliderThumbShape(enabledThumbRadius: 0.0),
         ),
         child: Slider(

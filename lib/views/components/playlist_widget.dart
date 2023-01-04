@@ -1,6 +1,8 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mvk/ext/ext_log.dart';
+import 'package:mvk/state/playlsit/providers/basic_player_provider.dart';
 import 'package:mvk/state/playlsit/providers/player_state_provider.dart';
 import 'package:mvk/state/playlsit/providers/playlist_provider.dart';
 import 'package:mvk/views/components/circular_indicator.dart';
@@ -13,6 +15,14 @@ class PlaylistWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(playerStateProvider, (previous, curent) {
       '_+++_$curent'.log();
+      if (curent == PlayerState.completed) {
+        () async {
+          await Future.delayed(
+            const Duration(seconds: 1),
+          );
+          ref.read(basicPlayerProvder).playNextTrack();
+        };
+      }
     });
 
     final playlist = ref.watch(playlistProvider);
