@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mvk/ext/ext_log.dart';
 import 'package:mvk/state/playlsit/providers/music_len_provider.dart';
 import 'package:mvk/state/playlsit/providers/music_list_provider.dart';
 import 'package:mvk/state/playlsit/providers/play_random_provider.dart';
@@ -89,6 +90,7 @@ class BasicPlayer {
     String source = ref.read(sourceProvider);
 
     final playerState = ref.read(playerStateProvider);
+    playerState.log();
 
     if (source == url) {
       if (source.isEmpty) {
