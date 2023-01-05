@@ -6,7 +6,7 @@ import 'package:mvk/state/playlsit/providers/basic_player_provider.dart';
 import 'package:mvk/state/playlsit/providers/playlist_provider.dart';
 import 'package:mvk/state/playlsit/providers/player_state_stream_provider.dart';
 import 'package:mvk/views/components/circular_indicator.dart';
-import 'package:mvk/views/components/music_items_list_widget.dart';
+import 'package:mvk/views/components/music_list/music_items_list_with_panel.dart';
 
 class PlaylistWidget extends ConsumerWidget {
   const PlaylistWidget({super.key});
@@ -31,7 +31,7 @@ class PlaylistWidget extends ConsumerWidget {
 
     return playlist.when(
       data: (data) {
-        return const MusicItemsListWidget();
+        return const MusicItemsListWithPanel();
       },
       error: (error, stackTrace) => Center(
         child: Text(

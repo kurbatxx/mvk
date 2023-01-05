@@ -28,6 +28,10 @@ class BasicPlayer {
     final audio = UrlSource(source);
     await player.stop();
     await player.play(audio);
+
+    final duration = await player.getDuration();
+    final double musicLen = duration?.inSeconds.toDouble() ?? 0.0;
+    ref.read(musicLenProvider.notifier).state = musicLen;
   }
 
   void pause() async {
