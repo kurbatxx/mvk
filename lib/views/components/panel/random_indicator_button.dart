@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mvk/constatnt/ui_constant.dart';
 import 'package:mvk/state/playlsit/providers/play_random_provider.dart';
 
 class RandomIndicatorButton extends ConsumerWidget {
@@ -11,6 +12,7 @@ class RandomIndicatorButton extends ConsumerWidget {
     final isRandom = ref.watch(playRandomProvider);
 
     return IconButton(
+      splashRadius: UiConstant.minimalSplashRadius,
       onPressed: () {
         isRandom
             ? ref.read(playRandomProvider.notifier).state = false
@@ -18,7 +20,7 @@ class RandomIndicatorButton extends ConsumerWidget {
       },
       icon: Icon(
         FontAwesomeIcons.shuffle,
-        color: isRandom ? Colors.white : Colors.white24,
+        color: isRandom ? Colors.white : Colors.white12,
       ),
     );
   }

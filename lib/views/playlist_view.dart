@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mvk/state/auth/providers/auth_state_provider.dart';
 import 'package:mvk/state/playlsit/providers/player_provider.dart';
 import 'package:mvk/views/components/playlist_widget.dart';
-import 'package:mvk/views/components/timer_chip/timer_chip.dart';
 import 'package:mvk/views/login_view.dart';
 
 class PlaylistView extends ConsumerWidget {
@@ -19,7 +19,9 @@ class PlaylistView extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const TimerChip(),
+        leading: const Icon(FontAwesomeIcons.music),
+        centerTitle: true,
+        title: const Text('Моя музыка'),
         actions: [
           Consumer(
             builder: (context, ref, child) {

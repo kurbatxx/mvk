@@ -7,6 +7,7 @@ class TimerChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Chip(
+      padding: EdgeInsets.all(2),
       backgroundColor: Colors.white,
       label: TimerCheapDetails(),
     );
