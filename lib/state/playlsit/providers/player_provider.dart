@@ -5,7 +5,6 @@ final playerProvider = Provider<AudioPlayer>((_) {
   final AudioContext audioContext = AudioContext(
     iOS: AudioContextIOS(
       defaultToSpeaker: true,
-      //category: AVAudioSessionCategory.ambient,
       category: AVAudioSessionCategory.playAndRecord,
       options: [
         AVAudioSessionOptions.defaultToSpeaker,

@@ -7,7 +7,7 @@ import 'package:mvk/state/playlsit/providers/music_len_provider.dart';
 import 'package:mvk/state/playlsit/providers/music_list_provider.dart';
 import 'package:mvk/state/playlsit/providers/play_random_provider.dart';
 import 'package:mvk/state/playlsit/providers/player_provider.dart';
-import 'package:mvk/state/playlsit/providers/player_state_provider.dart';
+import 'package:mvk/state/playlsit/providers/player_state_stream_provider.dart';
 import 'package:mvk/state/playlsit/providers/source_provider.dart';
 
 final basicPlayerProvder = Provider((ref) => BasicPlayer(ref));
@@ -28,15 +28,11 @@ class BasicPlayer {
     final audio = UrlSource(source);
     await player.stop();
     await player.play(audio);
-
-    ref.invalidate(playerStateProvider);
   }
 
   void pause() async {
     final player = ref.read(playerProvider);
     await player.pause();
-
-    ref.invalidate(playerStateProvider);
   }
 
   void playNextTrack() {
@@ -89,8 +85,10 @@ class BasicPlayer {
     final player = ref.read(playerProvider);
     String source = ref.read(sourceProvider);
 
-    final playerState = ref.read(playerStateProvider);
-    playerState.log();
+    final asyncPlayerState = ref.read(playerStateStreamProvider);
+    final playerState = asyncPlayerState.value ?? PlayerState.stopped;
+
+    '**$playerState'.log();
 
     if (source == url) {
       if (source.isEmpty) {
@@ -109,6 +107,8 @@ class BasicPlayer {
         case PlayerState.completed:
           await player.play(audio);
           break;
+        default:
+          break;
       }
     } else {
       await player.stop();
@@ -120,6 +120,5 @@ class BasicPlayer {
       final double musicLen = duration?.inSeconds.toDouble() ?? 0.0;
       ref.read(musicLenProvider.notifier).state = musicLen;
     }
-    ref.invalidate(playerStateProvider);
   }
 }

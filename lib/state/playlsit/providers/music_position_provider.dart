@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mvk/state/playlsit/providers/player_provider.dart';
-import 'package:mvk/state/playlsit/providers/player_state_provider.dart';
+import 'package:mvk/state/playlsit/providers/player_state_stream_provider.dart';
 
 final musicPositionProvider = StreamProvider<Duration>(
   (ref) {
@@ -15,21 +15,30 @@ final musicPositionProvider = StreamProvider<Duration>(
 
     ref.watch(tikerProvider.stream).forEach(
       (event) {
-        final state = ref.read(playerStateProvider);
+        final state = ref.read(playerStateStreamProvider);
 
-        if (state == PlayerState.playing) {
-          final duration = player.getCurrentPosition();
+        switch (state.value) {
+          case PlayerState.stopped:
+          case PlayerState.completed:
+            controller.add(
+              const Duration(seconds: 0),
+            );
+            break;
 
-          duration.then(
-            (value) {
-              dur = value ?? const Duration(seconds: 300);
-              controller.add(dur);
+          case PlayerState.playing:
+            final duration = player.getCurrentPosition();
 
-              // if (dur == const Duration()) {
-              //   ref.invalidate(playerStateProvider);
-              // }
-            },
-          );
+            duration.then(
+              (value) {
+                dur = value ?? const Duration(seconds: 0);
+                controller.add(dur);
+              },
+            );
+            break;
+          case PlayerState.paused:
+            break;
+          default:
+            break;
         }
       },
     );
@@ -39,7 +48,6 @@ final musicPositionProvider = StreamProvider<Duration>(
 
 final tikerProvider = StreamProvider<int>(
   (ref) {
-    return Stream.periodic(
-        const Duration(milliseconds: 200), (number) => number);
+    return Stream.periodic(const Duration(seconds: 1), (number) => number);
   },
 );

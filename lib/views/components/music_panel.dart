@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mvk/constatnt/ui_constant.dart';
 import 'package:mvk/state/playlsit/providers/basic_player_provider.dart';
-import 'package:mvk/state/playlsit/providers/player_state_provider.dart';
+import 'package:mvk/state/playlsit/providers/player_state_stream_provider.dart';
 import 'package:mvk/state/playlsit/providers/source_provider.dart';
 import 'package:mvk/views/components/slider_component.dart';
 
@@ -68,9 +68,9 @@ class PlayPauseButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final playerState = ref.watch(playerStateProvider);
+    final playerState = ref.watch(playerStateStreamProvider);
 
-    if (playerState == PlayerState.playing) {
+    if (playerState.value == PlayerState.playing) {
       return IconButton(
         splashRadius: UiConstant.basicSplashRadius,
         onPressed: () {
