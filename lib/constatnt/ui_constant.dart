@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' show BorderRadius, immutable;
+import 'package:flutter/material.dart' show immutable;
 
 @immutable
 class UiConstant {

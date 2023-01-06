@@ -1,8 +1,9 @@
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mvk/ext/ext_log.dart';
+import 'package:mvk/state/playlsit/providers/item_scroll_controller_provider.dart';
 import 'package:mvk/state/playlsit/providers/music_len_provider.dart';
 import 'package:mvk/state/playlsit/providers/music_list_provider.dart';
 import 'package:mvk/state/playlsit/providers/play_random_provider.dart';
@@ -56,6 +57,7 @@ class BasicPlayer {
       }
     }
 
+    scrollToCurrentTrack();
     play();
   }
 
@@ -76,6 +78,7 @@ class BasicPlayer {
       }
     }
 
+    scrollToCurrentTrack();
     play();
   }
 
@@ -85,14 +88,25 @@ class BasicPlayer {
     ref.read(sourceProvider.notifier).state = musicTrack.url;
   }
 
+  void scrollToCurrentTrack() {
+    final source = ref.read(sourceProvider);
+    final trackList = ref.read(musicListProvider);
+    final index = trackList.indexWhere((item) => item.url == source);
+
+    ref.read(itemScrollcontrollerProvider).scrollTo(
+          index: index,
+          alignment: 0.4,
+          duration: const Duration(seconds: 1),
+          curve: Curves.easeInOutCubic,
+        );
+  }
+
   void playOrPause({required String url}) async {
     final player = ref.read(playerProvider);
     String source = ref.read(sourceProvider);
 
     final asyncPlayerState = ref.read(playerStateStreamProvider);
     final playerState = asyncPlayerState.value ?? PlayerState.stopped;
-
-    '**$playerState'.log();
 
     if (source == url) {
       if (source.isEmpty) {

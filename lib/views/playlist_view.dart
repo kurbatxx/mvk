@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mvk/state/auth/providers/auth_state_provider.dart';
+import 'package:mvk/state/playlsit/providers/basic_player_provider.dart';
 import 'package:mvk/state/playlsit/providers/player_provider.dart';
 import 'package:mvk/views/components/playlist_widget.dart';
 import 'package:mvk/views/login_view.dart';
@@ -23,6 +24,16 @@ class PlaylistView extends ConsumerWidget {
         centerTitle: true,
         title: const Text('Моя музыка'),
         actions: [
+          Consumer(
+            builder: (context, ref, child) {
+              return IconButton(
+                onPressed: () {
+                  ref.read(basicPlayerProvder).scrollToCurrentTrack();
+                },
+                icon: const Icon(Icons.playlist_play),
+              );
+            },
+          ),
           Consumer(
             builder: (context, ref, child) {
               return IconButton(
