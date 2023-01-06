@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' show immutable;
+import 'package:flutter/material.dart' show BorderRadius, immutable;
 
 @immutable
 class UiConstant {
@@ -7,4 +7,5 @@ class UiConstant {
   static const basicSplashRadius = 28.0;
   static const sliderHeight = 16.0;
   static const panelSize = 80.0;
+  static const borderTileRadius = 16.0;
 }

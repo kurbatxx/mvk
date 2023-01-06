@@ -1,7 +1,11 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mvk/constatnt/ui_constant.dart';
+import 'package:mvk/ext/ext_log.dart';
 import 'package:mvk/state/auth/providers/initial_provider.dart';
+import 'package:mvk/state/playlsit/providers/basic_player_provider.dart';
+import 'package:mvk/state/playlsit/providers/player_state_stream_provider.dart';
 import 'package:mvk/views/login_view.dart';
 import 'package:mvk/views/playlist_view.dart';
 
@@ -27,6 +31,20 @@ class App extends StatelessWidget {
       home: SafeArea(
         child: Consumer(
           builder: (context, ref, child) {
+            ref.listen(
+              playerStateStreamProvider,
+              (_, currentState) {
+                '--${currentState.value}'.log();
+                if (currentState.value == PlayerState.completed) {
+                  Future.delayed(
+                    const Duration(seconds: 1),
+                  ).whenComplete(
+                    () => ref.read(basicPlayerProvder).playNextTrack(),
+                  );
+                }
+              },
+            );
+
             final asyncLogin = ref.watch(initialProvider);
             return asyncLogin.when(
               data: (isLogin) {
