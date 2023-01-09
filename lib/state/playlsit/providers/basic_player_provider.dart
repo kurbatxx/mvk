@@ -19,8 +19,8 @@ class BasicPlayer {
 
   void play() async {
     final player = ref.read(playerProvider);
-    String source = ref.read(sourceProvider);
-    if (source.isEmpty) {
+    String? source = ref.read(sourceProvider);
+    if (source == null) {
       final musicItem = ref.read(musicListProvider).first;
       source = musicItem.url;
       ref.read(sourceProvider.notifier).state = source;
@@ -103,13 +103,13 @@ class BasicPlayer {
 
   void playOrPause({required String url}) async {
     final player = ref.read(playerProvider);
-    String source = ref.read(sourceProvider);
+    String? source = ref.read(sourceProvider);
 
     final asyncPlayerState = ref.read(playerStateStreamProvider);
     final playerState = asyncPlayerState.value ?? PlayerState.stopped;
 
     if (source == url) {
-      if (source.isEmpty) {
+      if (source == null) {
         final musicItem = ref.read(musicListProvider).first;
         source = musicItem.url;
         ref.read(sourceProvider.notifier).state = source;

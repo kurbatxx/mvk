@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mvk/constatnt/ui_constant.dart';
 import 'package:mvk/state/playlsit/providers/basic_player_provider.dart';
+import 'package:mvk/state/playlsit/providers/music_list_provider.dart';
 import 'package:mvk/state/playlsit/providers/player_state_stream_provider.dart';
 import 'package:mvk/state/playlsit/providers/source_provider.dart';
 
@@ -27,8 +28,9 @@ class PlayPauseButton extends ConsumerWidget {
       return IconButton(
         splashRadius: UiConstant.basicSplashRadius,
         onPressed: () {
+          final musicList = ref.read(musicListProvider);
           ref.read(basicPlayerProvder).playOrPause(
-                url: ref.read(sourceProvider),
+                url: ref.read(sourceProvider) ?? musicList.first.url,
               );
         },
         icon: const Icon(
